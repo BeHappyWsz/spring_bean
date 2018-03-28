@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	
+	<!-- 
+		1.scope范围:prototype/request/session/singleton
+		2.init-method:bean加载的初始化方法,如果其他bean依赖该bean，则调用init多次
+		3.destroy-method:bean注销的方法
+		4.注入方法:
+			1.setter:
+			2.constructor-arg:index从0开始
+		5.注入常用的数据(结构)默认值
+	 -->
+    
+    <bean id="userDao" class="wsz.spring.dao.UserDao" 
+    	scope="prototype" 
+    	init-method="init" 
+    	destroy-method="destroy" >
+    </bean>
+    
+    <bean id="userDao2" class="wsz.spring.dao.UserDao2" scope="prototype" ></bean>
+    
+    <bean id="userService" class="wsz.spring.service.UserServiceImpl">
+    	<!--setter注入  -->
+    	<property name="userDao" ref="userDao"/>
+    	<!-- 构造注入 -->
+    	<constructor-arg index="0" ref="userDao2"/>
+    	
+    	<!-- 注入其他类型的 -->
+    	<property name="age" value="55"/>
+    	<property name="name" value="hahaha"/>
+    	<property name="list">
+    		<list>
+    			<value>a</value>
+    			<value>b</value>
+    			<value>c</value>
+    		</list>
+    	</property>
+    	<property name="set">
+    		<set>
+    			<value>aa</value>
+    			<value>bb</value>
+    			<value>cc</value>
+    		</set>
+    	</property>
+    	<property name="map">
+    		<map>
+    			<entry key="aaaa">
+    				<value>aaaa</value>
+    			</entry>
+    			<entry key="bbbb">
+    				<value>bbbb</value>
+    			</entry>
+    		</map>
+    	</property>
+    </bean>
+</beans>
